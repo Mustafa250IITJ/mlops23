@@ -18,6 +18,7 @@ def get_hyperparameter_combinations(dict_of_param_lists):
 
 def tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations):
     best_accuracy = -1
+    best_model_path = ""
     for h_params in h_params_combinations:
         # 5. Model training
         model = train_model(X_train, y_train, h_params, model_type="svm")
@@ -26,7 +27,9 @@ def tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations):
         if cur_accuracy > best_accuracy:
             best_accuracy = cur_accuracy
             best_hparams = h_params
+            best_model_path = "best model "+"_"join
             best_model = model
+    #save model
 
     return best_hparams, best_model, best_accuracy 
 
