@@ -19,6 +19,8 @@ def create_dummy_hyperparameter():
     h_params['C'] = C_list
     h_params_combinations = get_hyperparameter_combinations(h_params)
     return h_params_combinations
+
+
 def create_dummy_data():
     X, y = read_digits()
     
@@ -31,6 +33,8 @@ def create_dummy_data():
     X_dev = preprocess_data(X_dev)
 
     return X_train, y_train, X_dev, y_dev
+
+
 def test_for_hparam_cominations_values():    
     h_params_combinations = create_dummy_hyperparameter()
     
