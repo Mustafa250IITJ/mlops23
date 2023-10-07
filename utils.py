@@ -60,18 +60,19 @@ def split_data(x, y, test_size, random_state=1):
     )
     return X_train, X_test, y_train, y_test
 
+
 def train_model(x, y, model_params, model_type="svm"):
     if model_type == "svm":
-        # Create a classifier: a support vector classifier
-        clf = svm.SVC(**model_params)
-    elif model_type == "decision_tree":  
-        clf = DecisionTreeClassifier(**model_params)
+        clf = svm.SVC(**model_params)  # For SVM
+    elif model_type == "decision_tree":
+        clf = DecisionTreeClassifier()  # For Decision Tree
     else:
-        raise ValueError("Invalid model_type.: 'svm' or 'decision_tree'")
+        raise ValueError("Invalid model_type. Supported values are 'svm' and 'decision_tree'.")
 
     # Train the model
-    clf.fit(x, y)
-    return clf
+    model = clf.fit(x, y)
+    return model
+
 
 
 def train_test_dev_split(X, y, test_size, dev_size):
