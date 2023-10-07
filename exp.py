@@ -16,18 +16,38 @@ from sklearn import metrics, svm
 
 from utils import preprocess_data, split_data, train_model, read_digits, predict_and_eval, train_test_dev_split, get_hyperparameter_combinations, tune_hparams
 from joblib import dump, load
+import pandas as pd
+import pdb
+import sys 
+
+
+dev_sizes = sys.argv[1]  # First command line argument
+#test_sizes = sys.argv[2]  # Second command line argument
+
 # 1. Get the dataset
 X, y = read_digits()
+
 
 # 2. Hyperparameter combinations
 # 2.1. SVM
 gamma_list = [0.001, 0.01, 0.1, 1]
 C_list = [1, 10, 100, 1000]
 h_params={}
-h_params['gamma'] = gamma_list
-h_params['C'] = C_list
+
+model_type = "decision_tree"
+if model_type == "svm":
+    h_params['gamma'] = gamma_list
+    h_params['C'] = C_list
+elif model_type == "decision_tree":
+    h_params['max_depth'] = [None, 10, 20, 30]  
+    h_params['min_samples_split'] = [2, 5, 10]
 h_params_combinations = get_hyperparameter_combinations(h_params)
 
+
+
+cur_run_i = 0
+results = []
+results_dict={}
 test_sizes =  [0.1, 0.2, 0.3, 0.45]
 dev_sizes  =  [0.1, 0.2, 0.3, 0.45]
 for test_size in test_sizes:
@@ -40,8 +60,7 @@ for test_size in test_sizes:
         X_test = preprocess_data(X_test)
         X_dev = preprocess_data(X_dev)
     
-        best_hparams, best_model_path, best_accuracy  = tune_hparams(X_train, y_train, X_dev, 
-        y_dev, h_params_combinations)        
+        best_hparams, best_model_path, best_accuracy  = tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations)        
     
         
         # loading of model         
@@ -52,3 +71,16 @@ for test_size in test_sizes:
         dev_acc = best_accuracy
 
         print("test_size={:.2f} dev_size={:.2f} train_size={:.2f} train_acc={:.2f} dev_acc={:.2f} test_acc={:.2f}".format(test_size, dev_size, train_size, train_acc, dev_acc, test_acc))
+        
+        cur_run_results = {'model_type': model_type, 'run_index': cur_run_i, 'train_acc': train_acc, 'dev_acc':dev_acc, 'test_acc': test_acc}
+        results.append(cur_run_results)
+
+results_df = pd.DataFrame(results)
+
+results_df[results_df['model_type'] == 'svm'].describe()
+results_df[results_df['model_type'] == 'decision_tree'].describe()
+
+
+#pdb.set_trace()
+
+print ("lets check results df")
