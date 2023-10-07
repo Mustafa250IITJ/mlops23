@@ -1,5 +1,7 @@
 from sklearn.model_selection import train_test_split
 from sklearn import svm, datasets, metrics
+from sklearn.tree import DecisionTreeClassifier
+
 from joblib import dump, load
 # we will put all utils here
 
@@ -22,7 +24,8 @@ def tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations):
     best_model_path = ""
     for h_params in h_params_combinations:
         # 5. Model training
-        model = train_model(X_train, y_train, h_params, model_type="svm")
+        #model = train_model(X_train, y_train, h_params, model_type="svm")
+        model = train_model(X_train, y_train, h_params, model_type="decision_tree")
         # Predict the value of the digit on the test subset        
         cur_accuracy = predict_and_eval(model, X_dev, y_dev)
         if cur_accuracy > best_accuracy:
@@ -57,15 +60,18 @@ def split_data(x, y, test_size, random_state=1):
     )
     return X_train, X_test, y_train, y_test
 
-# train the model of choice with the model prameter
 def train_model(x, y, model_params, model_type="svm"):
     if model_type == "svm":
         # Create a classifier: a support vector classifier
-        clf = svm.SVC
-    model = clf(**model_params)
-    # train the model
-    model.fit(x, y)
-    return model
+        clf = svm.SVC(**model_params)
+    elif model_type == "decision_tree":  
+        clf = DecisionTreeClassifier(**model_params)
+    else:
+        raise ValueError("Invalid model_type.: 'svm' or 'decision_tree'")
+
+    # Train the model
+    clf.fit(x, y)
+    return clf
 
 
 def train_test_dev_split(X, y, test_size, dev_size):
