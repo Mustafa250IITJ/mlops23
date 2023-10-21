@@ -20,11 +20,11 @@ import pandas as pd
 import pdb
 import sys 
 
-
+num_runs = int(sys.argv[1])  # First command line argument
 # dev_sizes = sys.argv[1]  # First command line argument
-# #test_sizes = sys.argv[2]  # Second command line argument
+# test_sizes = sys.argv[2]  # Second command line argument
 
-num_runs = 5
+# num_runs = 5
 # 1. Get the dataset
 X, y = read_digits()
 
@@ -37,6 +37,7 @@ C_list = [0.1, 1, 10, 100, 1000]
 h_params={}
 h_params['gamma'] = gamma_list
 h_params['C'] = C_list
+# print(h_params)
 h_params_combinations = get_hyperparameter_combinations(h_params)
 classifier_param_dict['svm'] = h_params_combinations
 
@@ -63,8 +64,9 @@ classifier_param_dict['tree'] = h_params_trees_combinations
 
 # test_sizes =  [0.1, 0.2, 0.3, 0.45]
 # dev_sizes  =  [0.1, 0.2, 0.3, 0.45]
-test_sizes =  [0.2]
+
 dev_sizes  =  [0.2]
+test_sizes =  [0.2]
 results = []
 for cur_run_i in range(num_runs):
     for test_size in test_sizes:
