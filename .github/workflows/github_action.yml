@@ -23,4 +23,4 @@ jobs:
       - name: Run Pytest
         run: pytest
       - name: Run experiment
-        run: python train_compare.py candidate_model.joblib
+        run: python train_compare2.py
