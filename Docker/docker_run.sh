@@ -12,6 +12,6 @@ WORKDIR /digits
 VOLUME /digits/models
 
 # CMD python exp.py 3
-
-CMD ["pytest"]
+CMD ["python","exp.py","3"]
+# CMD ["pytest"]
 # CMD ["echo", "1st cmd line"
