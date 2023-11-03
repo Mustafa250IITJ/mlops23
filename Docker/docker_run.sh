@@ -9,9 +9,9 @@ RUN pip3 install -r ./digits/requirements.txt
 
 WORKDIR /digits
 
-VOLUME /digits/models
+VOLUME /digits/model
 
 # CMD python exp.py 3
-CMD ["python","exp.py","3"]
+CMD ["python","train_model.py"]
 # CMD ["pytest"]
 # CMD ["echo", "1st cmd line"
