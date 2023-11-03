@@ -13,11 +13,11 @@ X, y = mnist.data, mnist.target
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Train the Production Model
-production_model = SVC(C=1.0, kernel='rbf')  # Example hyperparameters, perform tuning
+production_model = SVC(C=1.0, kernel='rbf')  # hyperparameters tuning
 production_model.fit(X_train, y_train)
 
 # Train the Candidate Model
-candidate_model = DecisionTreeClassifier(max_depth=None)  # Example hyperparameters, perform tuning
+candidate_model = DecisionTreeClassifier(max_depth=None)  # hyperparameters tuning
 candidate_model.fit(X_train, y_train)
 
 # Evaluate Model Accuracy
