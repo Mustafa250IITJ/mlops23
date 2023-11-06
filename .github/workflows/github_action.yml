@@ -27,6 +27,8 @@ jobs:
       - name: Run experiment
         run: cd ./AI
       - name: Set FLASK_APP
-        run: export FLASK_APP=hello
+        # run: export FLASK_APP=hello
+        run: export FLASK_APP=AI.hello:app
       - name: Run Flask application
-        run: flask run
+        # run: flask run
+        run: flask run --app AI.hello:app
