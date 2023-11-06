@@ -25,6 +25,6 @@ jobs:
       - name: Run experiment
         run: python train_compare2.py
       - name: Run experiment
-        run: cd /AI
+        run: cd ./AI
       - name: Run Flask application
         run: flask run
