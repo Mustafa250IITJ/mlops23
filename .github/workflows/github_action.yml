@@ -26,5 +26,7 @@ jobs:
         run: python train_compare2.py
       - name: Run experiment
         run: cd ./AI
+      - name: Set FLASK_APP
+        run: export FLASK_APP=hello
       - name: Run Flask application
         run: flask run
