@@ -24,3 +24,5 @@ jobs:
         run: pytest
       - name: Run experiment
         run: python train_compare2.py
+      - name: Run experiment
+        run: flask run
