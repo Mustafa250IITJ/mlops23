@@ -1,18 +1,36 @@
 from flask import Flask, request, jsonify
-from flask import Flask
 import joblib
 from PIL import Image
 import numpy as np
 from io import BytesIO
-# Load the model
-model = joblib.load("./models/best_model gamma:0.01_C:1.joblib")
+import os
 
 app = Flask(__name__)
 
+# # Define the path to the 'models' directory
+# models_directory = os.path.join(os.path.dirname(__file__), 'models')
+# # Specify the name of the model file
+# model_filename = 'best_model gamma:0.01_C:1.joblib'
+# # Construct the full path to the model file
+# model_path = os.path.join(models_directory, model_filename)
+# # Load the model
+# model = joblib.load(model_path)
 
+# # Specify the path to the model file
+# model_path = './models/best_model gamma:0.01_C:1.joblib'
+# # # Load the model
+# model = joblib.load(model_path)
+
+model = '../best_model gamma:0.01_C:1.joblib'
+# model = '/models/best_model gamma:0.01_C:1.joblib'
+# Verify that the model is loaded successfully
+if model:
+    print("Model loaded successfully.")
+else:
+    print("Model loading failed.")
 
 @app.route('/compare_image', methods=['POST'])
-def compare_digits():
+def compare_image():
     if 'image1' not in request.files or 'image2' not in request.files:
         return jsonify(error='Please provide two images.'), 400
 
