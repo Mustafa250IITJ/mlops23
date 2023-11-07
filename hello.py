@@ -5,7 +5,7 @@ from PIL import Image
 import numpy as np
 from io import BytesIO
 # Load the model
-model = joblib.load("./best_model gamma:0.01_C:1.joblib")
+model = joblib.load("./models/best_model gamma:0.01_C:1.joblib")
 
 app = Flask(__name__)
 
