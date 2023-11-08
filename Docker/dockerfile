@@ -1,0 +1,43 @@
+# From  ubuntu:22.04
+FROM python:3.11
+
+COPY . /digits/
+# 
+# RUN apt-get update
+# RUN apt-get install -y python3
+RUN pip3 install --no-cache-dir -r ./digits/requirements.txt
+
+# WORKDIR /digits
+# cmd ["echo", "Run the flask in Docker"]
+# CMD ["pytest"]
+
+WORKDIR /digits/API
+# Export the FLASK_APP environment variable # export FLASK_APP=hello:app
+RUN export FLASK_APP=hello:app
+ENV FLASK_APP=hello:app   
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
+
+CMD ["flask", "run", "--host=0.0.0.0"]
+
+
+
+
+
+# #------- build and run docker container
+## docker build -t digis_class:v1 -f Docker/dockerfile .    # to build the docker file
+## docker run -it digis_class:v1                            # directly run
+## docker run -it digis_class:v1 bash                       # it will open executable bash
+## docker images                                            # list of docker images
+## docker rmi -f $(docker images -f "dangling=true" -q)     # to remove unwanted docker images
+## docker rmi -f <IMAGE_ID>                                 # to remove particular docker images
+## docker container ls                                      # to see the container detail while runtime
+# # ---------
+
+# #------- run flask in docker container
+# docker build -t digits_class:v1 -f Docker/dockerfile .
+# docker run -it -p 5000:5000 digits_class:v1 bash
+# # change the directory where flask code is present (cd API) 
+# export FLASK_APP=hello:app
+# flask run --host=0.0.0.0
+# # ---------
