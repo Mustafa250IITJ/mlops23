@@ -22,13 +22,3 @@ jobs:
         run:  pip3 install --no-cache-dir -r requirements.txt
       - name: Run Pytest
         run: pytest
-      # - name: Run experiment
-      #   run: python train_compare2.py
-      # - name: Run experiment
-      #   run: cd ./AI
-      # - name: Set FLASK_APP
-      #   # run: export FLASK_APP=hello
-      #   run: export FLASK_APP=AI.hello:app
-      # - name: Run Flask application
-      #   # run: flask run
-      #   run: flask run --app AI.hello:app

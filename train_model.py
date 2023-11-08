@@ -26,13 +26,14 @@ candidate_model.fit(X_train, y_train)
 # model_filename = 'candidate_model.pkl'  # Specify the model file name
 # joblib.dump(candidate_model, model_filename)
 
-# # Create a 'model' directory if it doesn't exist
-# model_dir = 'model'
-# os.makedirs(model_dir, exist_ok=True)
-# # Specify the model file name with the folder path
-# model_filename = os.path.join(model_dir, 'dts_model.joblib')
-# # Save the Candidate Model
-# joblib.dump(candidate_model, model_filename)
+# Create a 'model' directory if it doesn't exist
+model_dir = 'model'
+os.makedirs(model_dir, exist_ok=True)
+# Specify the model file name with the folder path
+model_filename = os.path.join(model_dir, 'dts_model.joblib')
+# Save the Model
+joblib.dump(candidate_model, model_filename)
+
 
 # Evaluate Model Accuracy
 production_accuracy = accuracy_score(y_test, production_model.predict(X_test))
@@ -50,13 +51,13 @@ confusion_matrix_2x2 = np.array([[correct_in_production_not_in_candidate, 0], [0
 production_f1 = f1_score(y_test, production_model.predict(X_test), average='macro')
 candidate_f1 = f1_score(y_test, candidate_model.predict(X_test), average='macro')
 
-Display Results
-print("Production Model Accuracy:", production_accuracy)
-print("Candidate Model Accuracy:", candidate_accuracy)
-print("Production Model Confusion Matrix:\n", production_confusion_matrix)
-print("Candidate Model Confusion Matrix:\n", candidate_confusion_matrix)
-print("2x2 Confusion Matrix (Correct in Production but Not in Candidate):\n", confusion_matrix_2x2)
-print("Production Model Macro-Average F1 Score:", production_f1)
-print("Candidate Model Macro-Average F1 Score:", candidate_f1)
+# Display Results
+# print("Production Model Accuracy:", production_accuracy)
+# print("Candidate Model Accuracy:", candidate_accuracy)
+# print("Production Model Confusion Matrix:\n", production_confusion_matrix)
+# print("Candidate Model Confusion Matrix:\n", candidate_confusion_matrix)
+# print("2x2 Confusion Matrix (Correct in Production but Not in Candidate):\n", confusion_matrix_2x2)
+# print("Production Model Macro-Average F1 Score:", production_f1)
+# print("Candidate Model Macro-Average F1 Score:", candidate_f1)
 
-# print("model saved as:", model_filename)  # Print the saved model's filename
+print("model saved as:", model_filename)  # Print the saved model's filename

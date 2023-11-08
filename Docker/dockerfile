@@ -5,6 +5,7 @@ COPY . /digits/
 # 
 # RUN apt-get update
 # RUN apt-get install -y python3
+
 RUN pip3 install --no-cache-dir -r ./digits/requirements.txt
 
 # WORKDIR /digits
@@ -41,3 +42,4 @@ CMD ["flask", "run", "--host=0.0.0.0"]
 # export FLASK_APP=hello:app
 # flask run --host=0.0.0.0
 # # ---------
+
