@@ -27,7 +27,7 @@ candidate_model.fit(X_train, y_train)
 # joblib.dump(candidate_model, model_filename)
 
 # Create a 'model' directory if it doesn't exist
-model_dir = 'model'
+model_dir = 'train_modelsaved'
 os.makedirs(model_dir, exist_ok=True)
 # Specify the model file name with the folder path
 model_filename = os.path.join(model_dir, 'dts_model.joblib')

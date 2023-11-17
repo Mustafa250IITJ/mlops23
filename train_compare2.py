@@ -50,7 +50,7 @@ confusion_matrix_2x2 = np.array([[correct_in_production_not_in_candidate, 0], [0
 production_f1 = f1_score(y_test, production_model.predict(X_test), average='macro')
 candidate_f1 = f1_score(y_test, candidate_model.predict(X_test), average='macro')
 
-Display Results
+# Display Results
 print("Production Model Accuracy:", production_accuracy)
 print("Candidate Model Accuracy:", candidate_accuracy)
 print("Production Model Confusion Matrix:\n", production_confusion_matrix)
