@@ -1,60 +1,122 @@
 from flask import Flask, request, jsonify
-
-app = Flask(__name__)
+from PIL import Image
+import numpy as np
+from io import BytesIO
 
 import joblib
 import os
-# Folder where the trained machine learning model is saved
-model_folder = '../trainmodelsaved/'
-# model_folder = '/app/trainmodelsaved'
-# Construct the full path to the trained model
-model_path = os.path.join(model_folder, 'mnist_model.joblib')
-# Load the trained machine learning model
-loaded_model = joblib.load(model_path)
 
-# # Access the parameters/attributes of the model
-# if isinstance(loaded_model, LogisticRegression):
-#     # Assuming the model is a Logistic Regression model
-#     coefficients = loaded_model.coef_
-#     intercept = loaded_model.intercept_
+# model_folder = '../models'
+# model = os.path.join(model_folder, 'best_model gamma:0.01_C:1.joblib')
+# model = joblib.load('model.joblib')
+model = joblib.load('best_model gamma:0.01_C:1.joblib')
 
-#     print("Coefficients:", coefficients)
-#     print("Intercept:", intercept)
-# else:
-#     print("Model type not recognized. Check the model type and access attributes accordingly.")
-
+app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return 'MLops Assignment-5'
+    return 'MLops AQuiz-4'
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    try:
-        # Assuming the input data is in JSON format
-        input_data = request.json
 
-        # Extract features from input_data 
-        # features = [input_data['feature1'], input_data['feature2'], ...]
-        # features = [input_data[f'feature{i}'] for i in range(1, 65)]
-        features = [input_data.get(f'feature{i}', 0) for i in range(1, 65)]
+@app.route('/predict_digit', methods=['POST'])
+def predict_digit():
+    if 'image' not in request.files:
+        return jsonify(error='Please provide an image.'), 400
 
-        # Perform prediction using the loaded model
-        prediction = loaded_model.predict([features])
+    image_bytes = request.files['image'].read()
+    image = Image.open(BytesIO(image_bytes)).convert('L')
+    image = image.resize((8, 8), Image.LANCZOS)
+    
+    image_arr = np.array(image).reshape(1, -1)
+    pred = model.predict(image_arr)
 
-        # Convert the prediction to a dictionary
-        result = {"prediction": int(prediction[0])}
+    return jsonify(predicted_digit=int(pred[0]))
 
-        return jsonify(result)
 
-    except Exception as e:
-        # Handle exceptions appropriately
-        return jsonify({"error": str(e)}), 500
+@app.route('/compare_digits', methods=['POST'])
+def compare_digits():
+    if 'image1' not in request.files or 'image2' not in request.files:
+        return jsonify(error='Please provide two images.'), 400
 
-if __name__ == '__main__':
-    app.run()
-    # app.run(host='0.0.0.0', port=80)
+    image1_bytes = request.files['image1'].read()
+    image2_bytes = request.files['image2'].read()
 
+    image1 = Image.open(BytesIO(image1_bytes)).convert('L')
+    image2 = Image.open(BytesIO(image2_bytes)).convert('L')
+
+    image1 = image1.resize((8, 8), Image.LANCZOS)
+    image2 = image2.resize((8, 8), Image.LANCZOS)
+    
+    image1_arr = np.array(image1).reshape(1, -1)
+    image2_arr = np.array(image2).reshape(1, -1)
+
+    pred1 = model.predict(image1_arr)
+    pred2 = model.predict(image2_arr)
+
+    result = pred1 == pred2
+
+    return jsonify(same_digit=bool(result[0]))
+
+
+
+# #--------------asg-5-----------
+# from flask import Flask, request, jsonify
+
+# app = Flask(__name__)
+
+# import joblib
+# import os
+# # Folder where the trained machine learning model is saved
+# model_folder = '../trainmodelsaved/'
+# # model_folder = '/app/trainmodelsaved'
+# # Construct the full path to the trained model
+# model_path = os.path.join(model_folder, 'mnist_model.joblib')
+# # Load the trained machine learning model
+# loaded_model = joblib.load(model_path)
+
+# # # Access the parameters/attributes of the model
+# # if isinstance(loaded_model, LogisticRegression):
+# #     # Assuming the model is a Logistic Regression model
+# #     coefficients = loaded_model.coef_
+# #     intercept = loaded_model.intercept_
+
+# #     print("Coefficients:", coefficients)
+# #     print("Intercept:", intercept)
+# # else:
+# #     print("Model type not recognized. Check the model type and access attributes accordingly.")
+
+
+# @app.route('/')
+# def hello():
+#     return 'MLops Assignment-5'
+
+# @app.route('/predict', methods=['POST'])
+# def predict():
+#     try:
+#         # Assuming the input data is in JSON format
+#         input_data = request.json
+
+#         # Extract features from input_data 
+#         # features = [input_data['feature1'], input_data['feature2'], ...]
+#         # features = [input_data[f'feature{i}'] for i in range(1, 65)]
+#         features = [input_data.get(f'feature{i}', 0) for i in range(1, 65)]
+
+#         # Perform prediction using the loaded model
+#         prediction = loaded_model.predict([features])
+
+#         # Convert the prediction to a dictionary
+#         result = {"prediction": int(prediction[0])}
+
+#         return jsonify(result)
+
+#     except Exception as e:
+#         # Handle exceptions appropriately
+#         return jsonify({"error": str(e)}), 500
+
+# if __name__ == '__main__':
+#     app.run()
+#     # app.run(host='0.0.0.0', port=80)
+##---------end
 
 
 ###==================--------notes---------==============
