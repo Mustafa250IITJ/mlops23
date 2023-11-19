@@ -8,8 +8,8 @@ import os
 
 # model_folder = '../models'
 # model = os.path.join(model_folder, 'best_model gamma:0.01_C:1.joblib')
-# model = joblib.load('model.joblib')
-model = joblib.load('best_model gamma:0.01_C:1.joblib')
+model = joblib.load('model.joblib')
+# model = joblib.load('best_model gamma:0.01_C:1.joblib')
 
 app = Flask(__name__)
 
