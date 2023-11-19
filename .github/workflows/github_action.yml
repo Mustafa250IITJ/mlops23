@@ -21,5 +21,7 @@ jobs:
       - name: Install dep
         run:  pip3 install --no-cache-dir -r requirements.txt
       - name: Run Pytest
-        run: pytest
+        run: |
+          cd API
+          pytest testcase.py
    
