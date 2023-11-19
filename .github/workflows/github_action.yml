@@ -23,5 +23,5 @@ jobs:
       - name: Run Pytest
         run: |
           cd API
-          pytest -s
+          pytest -s testcase.py
    
