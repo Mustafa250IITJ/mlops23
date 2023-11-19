@@ -4,6 +4,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 import joblib
 import os
+
 # Folder where the trained machine learning model is saved
 model_folder = 'trainmodelsaved/'
 # model_folder = '/app/trainmodelsaved'
