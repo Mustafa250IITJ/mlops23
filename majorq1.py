@@ -13,4 +13,4 @@ normalized_data = scaler.fit_transform(data)
 print("Original Data:")
 print(data)
 print("\nNormalized Data:")
-print(normalized_data)
+
