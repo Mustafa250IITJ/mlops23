@@ -1,0 +1,3 @@
+test accuracy: 0.6638888888888889
+test macro-f1: 0.6455830320132565
+model saved at ./models/tree_max_depth=5_42.joblib

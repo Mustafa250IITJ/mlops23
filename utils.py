@@ -19,7 +19,7 @@ def get_hyperparameter_combinations(dict_of_param_lists):
         base_combinations = get_combinations(param_name, param_values, base_combinations)
     return base_combinations
 
-def tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations, model_type="svm"):
+def tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations, model_type):
     best_accuracy = -1
     best_model_path = ""
     for h_params in h_params_combinations:
@@ -31,7 +31,7 @@ def tune_hparams(X_train, y_train, X_dev, y_dev, h_params_combinations, model_ty
         if cur_accuracy > best_accuracy:
             best_accuracy = cur_accuracy
             best_hparams = h_params
-            best_model_path = "./models/best_model " +"_".join(["{}:{}".format(k,v) for k,v in h_params.items()]) + ".joblib"
+            best_model_path = "./models/best_model_" +"_".join(["{}:{}".format(k,v) for k,v in h_params.items()]) + ".joblib"
             best_model = model
 
     # save the best_model    
@@ -54,17 +54,18 @@ def preprocess_data(data):
     return data
 
 # Split data into 50% train and 50% test subsets
-def split_data(x, y, test_size, random_state=1):
+def split_data(x, y, test_size, random_state):
     X_train, X_test, y_train, y_test = train_test_split(
     x, y, test_size=test_size, shuffle = True
     )
     return X_train, X_test, y_train, y_test
 
 
-def train_model(x, y, model_params, model_type="svm"):
+def train_model(x, y, model_params, model_type):
     if model_type == "svm":                
         clf = svm.SVC  # For SVM
-    if model_type == "tree":
+    # if model_type == "tree":
+    else:
         clf = tree.DecisionTreeClassifier  # For Decision Tree
     # else:
     #     raise ValueError("Invalid model_type. Supported values are 'svm' and 'decision_tree'.")
